@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+  color: #eee;
+  background-color: rgb(31, 41, 55);
+  margin: 0;
+  font-family: 'Quicksand', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+b {
+    font-weight: 700;
+    font-family: 'Quicksand';
+}
+h1, h2, h3 {
+    font-family: 'Quicksand', 'serif';
+}
+
+.hueGradient {
+    background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(250,255,10,1) 17%, rgba(0,255,19,1) 35%, rgba(5,172,189,1) 52%, rgba(10,7,244,1) 67%, rgba(255,0,233,1) 83%, rgba(255,0,0,1) 100%);
+}
+
+.text-shadow-sm{
+    text-shadow: 0 0 5px rgba(0,0,0,0.9);
+}
