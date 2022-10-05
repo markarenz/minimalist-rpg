@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { setSizes } from '../helpers/gameHelpers';
 import gameData from '../data/gameData';
-import { GAME_PANELS } from '../data/constants';
+import { GAME_PANELS, PANE_TRANSITION_DUR } from '../data/constants';
 import { Action, Inventory, Player, Header } from '../components';
 import gameNavData from '../data/gameNav';
 import getBreakpoint from '../helpers/getBreakpoint';
@@ -11,6 +11,7 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
   const [activePanel, setActivePanel] = useState(GAME_PANELS.ACTION);
   const [gameState, setGameState] = useState(initCharObj);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionMode, setTransitionMode] = useState(null);
   // eslint-disable-next-line
   const [breakpoint, setBreakpoint] = useState(null);
   const [isNarrow, setIsNarrow] = useState(null);
@@ -18,9 +19,15 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
     window.scrollTo(0, 0);
     setActivePanel(newActivePanelId);
   };
-
   const gameNavCurrent = gameNavData.find((i) => i.id === activePanel);
   const activePanelRef = useRef(GAME_PANELS.ACTION);
+  const triggerPaneTransition = (mode, callback) => {
+    setTransitionMode(mode);
+    setTimeout(() => {
+      setTransitionMode(null);
+      callback();
+    }, PANE_TRANSITION_DUR);
+  };
   useEffect(() => {
     activePanelRef.current = activePanel;
   }, [activePanel]);
@@ -56,6 +63,9 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
               setGameState={setGameState}
               isTransitioning={isTransitioning}
               setIsTransitioning={setIsTransitioning}
+              // transitionMode triggerPaneTransition
+              transitionMode={transitionMode}
+              triggerPaneTransition={triggerPaneTransition}
             />
           )}
           {activePanel === GAME_PANELS.INVENTORY && (

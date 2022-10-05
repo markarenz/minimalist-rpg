@@ -127,6 +127,8 @@ const DATE_CONFIG = {
   turnsInDay: 5,
 };
 
+const PANE_TRANSITION_DUR = 300;
+
 export {
   APP_STATUSES,
   GAME_PANELS,
@@ -138,4 +140,5 @@ export {
   LEVEL_BREAKPOINTS,
   CHAR_CLASS_STAT_BOOSTS,
   DATE_CONFIG,
+  PANE_TRANSITION_DUR,
 };

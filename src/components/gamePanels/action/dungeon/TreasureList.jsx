@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { treasureType, itemsType } from '../../../../propTypeShapes';
 
 const TreasureList = ({ treasure, items, status }) => {
+  console.log('TreasureList items', items);
   const getItemClass = () => (status === 'none' ? 'line-through' : '');
   return (
     <div>

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { processTurn } from '../../../helpers/gameHelpers';
 import { Map, Dialog, Dungeon, Shop, Healing, TransitionWrap } from '../../index';
 import { gameStateType, gameDataType } from '../../../propTypeShapes';
 
-const Action = ({ gameState, gameData, setGameState, isTransitioning, setIsTransitioning }) => {
+const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPaneTransition }) => {
   const areaData = gameData.areas[gameState.location];
   const actionLabelKeys = {
     map: 'common__you_are_here',
@@ -14,15 +13,11 @@ const Action = ({ gameState, gameData, setGameState, isTransitioning, setIsTrans
     dungeon: 'common__you_are_adventuring_here',
     healing: 'common__you_are_here',
   };
-  const handleReturn = () => {
-    const parentId = gameData.areas[gameState.location].parent;
-    processTurn({ type: 'go', areaId: parentId }, setGameState, gameData);
-  };
   return (
     <div>
       <div className="w-full py-2 px-4 bg-gray-900/50 text-right overflow-x-hidden">
         <span>&nbsp;</span>
-        <TransitionWrap show={!isTransitioning} className="inline-block" anim="l2c2rFast">
+        <TransitionWrap show={!transitionMode} className="inline-block" anim="l2c2rFast">
           <span>
             <FormattedMessage
               id={actionLabelKeys[areaData?.type]}
@@ -37,36 +32,55 @@ const Action = ({ gameState, gameData, setGameState, isTransitioning, setIsTrans
           gameData={gameData}
           gameState={gameState}
           setGameState={setGameState}
-          isTransitioning={isTransitioning}
-          setIsTransitioning={setIsTransitioning}
+          transitionMode={transitionMode}
+          triggerPaneTransition={triggerPaneTransition}
         />
       )}
       {areaData?.type === 'dialog' && (
-        <Dialog gameData={gameData} gameState={gameState} setGameState={setGameState} />
+        <Dialog
+          gameData={gameData}
+          gameState={gameState}
+          setGameState={setGameState}
+          triggerPaneTransition={triggerPaneTransition}
+        />
       )}
       {areaData?.type === 'dungeon' && (
-        <Dungeon gameData={gameData} gameState={gameState} setGameState={setGameState} />
+        <Dungeon
+          gameData={gameData}
+          gameState={gameState}
+          setGameState={setGameState}
+          triggerPaneTransition={triggerPaneTransition}
+        />
       )}
       {areaData?.type === 'shop' && (
-        <Shop gameData={gameData} gameState={gameState} setGameState={setGameState} />
+        <Shop
+          gameData={gameData}
+          gameState={gameState}
+          setGameState={setGameState}
+          triggerPaneTransition={triggerPaneTransition}
+        />
       )}
       {areaData?.type === 'healing' && (
         <Healing
           gameData={gameData}
           gameState={gameState}
           setGameState={setGameState}
-          handleReturn={handleReturn}
+          triggerPaneTransition={triggerPaneTransition}
         />
       )}
     </div>
   );
 };
 
+Action.defaultProps = {
+  transitionMode: null,
+};
+
 Action.propTypes = {
   gameState: gameStateType.isRequired,
   gameData: gameDataType.isRequired,
   setGameState: PropTypes.func.isRequired,
-  isTransitioning: PropTypes.bool.isRequired,
-  setIsTransitioning: PropTypes.func.isRequired,
+  transitionMode: PropTypes.string,
+  triggerPaneTransition: PropTypes.func.isRequired,
 };
 export default Action;
