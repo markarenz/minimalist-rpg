@@ -25,6 +25,7 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
     setTransitionMode(mode);
     setTimeout(() => {
       setTransitionMode(null);
+      window.scrollTo(0, 0);
       callback();
     }, PANE_TRANSITION_DUR);
   };
@@ -55,7 +56,7 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
         handleReturnToSplash={handleReturnToSplash}
       />
       <div className="grid grid-cols-12">
-        <div className="col-span-12 lg:col-span-9 min-h-screen">
+        <div className="col-span-12 lg:col-span-9 min-h-screen relative">
           {activePanel === GAME_PANELS.ACTION && (
             <Action
               gameData={gameData}
@@ -63,7 +64,6 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
               setGameState={setGameState}
               isTransitioning={isTransitioning}
               setIsTransitioning={setIsTransitioning}
-              // transitionMode triggerPaneTransition
               transitionMode={transitionMode}
               triggerPaneTransition={triggerPaneTransition}
             />

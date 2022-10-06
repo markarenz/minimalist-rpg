@@ -23,6 +23,7 @@ export { default as Footer } from './gamePanels/action/layout/Footer';
 export { default as Header } from './gamePanels/action/layout/Header';
 export { default as HeaderButton } from './gamePanels/action/layout/HeaderButton';
 export { default as ActionTransitionWrap } from './gamePanels/action/ActionTransitionWrap';
+export { default as TransitionCover } from './gamePanels/TransitionCover';
 
 // SUB COMPS: GAME PANELS / ACTION / MAP
 export { default as Map } from './gamePanels/action/map/Map';

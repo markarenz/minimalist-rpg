@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Map, Dialog, Dungeon, Shop, Healing, TransitionWrap } from '../../index';
+import { Map, Dialog, Dungeon, Shop, Healing, TransitionWrap, TransitionCover } from '../../index';
 import { gameStateType, gameDataType } from '../../../propTypeShapes';
 
 const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPaneTransition }) => {
@@ -13,9 +13,10 @@ const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPane
     dungeon: 'common__you_are_adventuring_here',
     healing: 'common__you_are_here',
   };
+
   return (
     <div>
-      <div className="w-full py-2 px-4 bg-gray-900/50 text-right overflow-x-hidden">
+      <div className="w-full py-2 px-4 bg-gray-900/50 text-right overflow-x-hidden relative z-20">
         <span>&nbsp;</span>
         <TransitionWrap show={!transitionMode} className="inline-block" anim="l2c2rFast">
           <span>
@@ -68,6 +69,7 @@ const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPane
           triggerPaneTransition={triggerPaneTransition}
         />
       )}
+      <TransitionCover transitionMode={transitionMode} />
     </div>
   );
 };

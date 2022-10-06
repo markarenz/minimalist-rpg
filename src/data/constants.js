@@ -127,7 +127,7 @@ const DATE_CONFIG = {
   turnsInDay: 5,
 };
 
-const PANE_TRANSITION_DUR = 300;
+const PANE_TRANSITION_DUR = 350;
 
 export {
   APP_STATUSES,
