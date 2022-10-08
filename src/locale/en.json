@@ -93,10 +93,11 @@
 "battle__loot__title": "Loot Collected",
 "battle__log__player": "Player",
 "battle__log__enemy": "Enemy",
-"battle__log__attacks": "attacks with",
+"battle__log__attacks": "attacks",
+"battle__log__with": "with",
 "battle__log__hits": "and hits for {dmg} damage",
 "battle__log__misses": "and misses",
-"battle__log__result_enemy_dead": ", killing the enemy",
+"battle__log__result_enemy_dead": ", defeating them",
 "battle__log__result_player_dead": ", stunning you and leaving you unable to fight",
 
 "dungeon__too_injured": "Oof, you look awful, kid. I can't in good conscience let you delve into the dungeon. You'll surely die, and that's really bad for business. Go find a place to heal up or drink some health juice and come back later.",

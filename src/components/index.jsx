@@ -35,6 +35,8 @@ export { default as Dialog } from './gamePanels/action/dialog/Dialog';
 // SUB COMPS: GAME PANELS / ACTION / DUNGEON
 export { default as Dungeon } from './gamePanels/action/dungeon/Dungeon';
 export { default as TreasureList } from './gamePanels/action/dungeon/TreasureList';
+export { default as Battle } from './gamePanels/action/dungeon/Battle';
+export { default as BattleLogItem } from './gamePanels/action/dungeon/BattleLogItem';
 
 // SUB COMPS: GAME PANELS / ACTION / SHOP
 export { default as Shop } from './gamePanels/action/shop/Shop';

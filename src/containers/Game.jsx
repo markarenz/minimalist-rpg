@@ -10,6 +10,7 @@ import getBreakpoint from '../helpers/getBreakpoint';
 const Game = ({ initCharObj, handleReturnToSplash }) => {
   const [activePanel, setActivePanel] = useState(GAME_PANELS.ACTION);
   const [gameState, setGameState] = useState(initCharObj);
+  const [navLockout, setNavLockout] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionMode, setTransitionMode] = useState(null);
   // eslint-disable-next-line
@@ -53,6 +54,7 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
         activePanel={activePanel}
         handelHeaderNavClick={handelHeaderNavClick}
         handleReturnToSplash={handleReturnToSplash}
+        navLockout={navLockout}
       />
       <div className="grid grid-cols-12">
         <div className="col-span-12 lg:col-span-9 min-h-screen">
@@ -63,9 +65,10 @@ const Game = ({ initCharObj, handleReturnToSplash }) => {
               setGameState={setGameState}
               isTransitioning={isTransitioning}
               setIsTransitioning={setIsTransitioning}
-              // transitionMode triggerPaneTransition
               transitionMode={transitionMode}
               triggerPaneTransition={triggerPaneTransition}
+              navLockout={navLockout}
+              setNavLockout={setNavLockout}
             />
           )}
           {activePanel === GAME_PANELS.INVENTORY && (

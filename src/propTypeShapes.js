@@ -127,6 +127,9 @@ const appearanceType = shape({
   extras: arrayOf(string).isRequired,
 });
 
+const dungeonFightLogItemType = shape({
+  whoseTurn: string.isRequired,
+});
 export {
   gameDataType,
   gameStateType,
@@ -139,4 +142,5 @@ export {
   itemsType,
   dungeonStateType,
   treasureType,
+  dungeonFightLogItemType,
 };

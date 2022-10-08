@@ -267,15 +267,15 @@ const calcEnemyArmorClass = (enemy, gameData) => {
 };
 
 // incorporate dungeonLevel
-const getNumEnemies = (floor) => {
-  const n = 1 + Math.floor((floor % 40) / 5);
+const getNumEnemies = (flr) => {
+  const n = 2 + Math.floor((flr % 40) / 5);
   return n + rndScatter(Math.floor(n * 0.5));
 };
 
 const getEnemyLevel = (floor) => 1 + Math.floor(floor / 40);
 
 // eslint-disable-next-line
-const getEnemy = (level, dungeonLevel, enemiesData) => {
+const getEnemy = (level, dungeonLevel, enemiesData, i) => {
   const enemyOptionKeys = Object.keys(enemiesData).filter((k) => enemiesData[k].level === level);
   const rndIdx = Math.floor(Math.random() * enemyOptionKeys.length);
   const enemyObj = enemiesData[enemyOptionKeys[rndIdx]];
@@ -284,6 +284,7 @@ const getEnemy = (level, dungeonLevel, enemiesData) => {
   return {
     ...enemyObj,
     health,
+    idx: i,
   };
 };
 
@@ -291,8 +292,8 @@ const getEnemiesForDungeonFloor = (floor, dungeonLevel, enemiesData) => {
   const enemiesArr = [];
   const numEnemies = getNumEnemies(floor);
   const enemyLevel = getEnemyLevel(floor);
-  const newEnemy = getEnemy(enemyLevel, dungeonLevel, enemiesData);
   for (let i = 0; i < numEnemies; i += 1) {
+    const newEnemy = getEnemy(enemyLevel, dungeonLevel, enemiesData, i);
     enemiesArr.push(newEnemy);
   }
   return enemiesArr;
@@ -331,6 +332,8 @@ const getTreasure = (numItems, gameData, prevTreasure) => {
   return [...treasure, ...prevTreasure];
 };
 
+const getAliveEnemyIdx = (enemiesArr) => enemiesArr.find((e) => e.health > 0)?.idx;
+
 const processFight = (gameState, gameData, initiative, enemies) => {
   const enemiesArr = [...enemies];
   let playerHealth = gameState.health;
@@ -351,41 +354,67 @@ const processFight = (gameState, gameData, initiative, enemies) => {
 
   while (fighting) {
     if (whoseTurn === 'player') {
-      isHit = rollDice(20) >= calcEnemyArmorClass(enemiesArr[0], gameData);
+      const enemyIdx = getAliveEnemyIdx(enemiesArr);
+      isHit = rollDice(20) >= calcEnemyArmorClass(enemiesArr[enemyIdx], gameData);
       dmg = getMinMaxRnd(playerWeapon.dmg);
       if (isHit) {
         roundResult = 'hit';
-        enemiesArr[0].health -= dmg;
-        if (enemiesArr[0].health < 1) {
+        enemiesArr[enemyIdx].health -= dmg;
+        if (enemiesArr[enemyIdx].health < 1) {
           roundResult = 'death';
-          enemiesArr.shift();
+          enemiesArr[enemyIdx].health = 0;
         }
       } else {
         roundResult = 'miss';
       }
-      fightLog.push({ round, whoseTurn, isHit, roundResult, weapon: playerWeapon.titleKey, dmg });
+      fightLog.push({
+        logIdx: fightLog.length,
+        round,
+        whoseTurn,
+        isHit,
+        roundResult,
+        weapon: playerWeapon.titleKey,
+        dmg,
+        enemyIdx,
+        enemyType: enemiesArr[enemyIdx].id,
+        enemies: enemiesArr.map((e) => e.health),
+      });
     } else {
       // eslint-disable-next-line
       enemiesArr.forEach((enemy) => {
-        isHit = rollDice(20) >= gameState.armorClass;
-        const enemyWeapon = gameData.items[enemy.weapon];
-        if (isHit) {
-          dmg = getMinMaxRnd(enemyWeapon.dmg);
-          playerHealth -= dmg;
-          roundResult = 'hit';
-          if (playerHealth <= minPlayerHealth) {
-            playerHealth = minPlayerHealth;
-            fighting = false;
-            roundResult = 'stun';
-            result = 'defeat';
+        if (fighting && enemy.health > 0) {
+          isHit = rollDice(20) >= gameState.armorClass;
+          const enemyWeapon = gameData.items[enemy.weapon];
+          if (isHit) {
+            dmg = getMinMaxRnd(enemyWeapon.dmg);
+            playerHealth -= dmg;
+            roundResult = 'hit';
+            if (playerHealth <= minPlayerHealth) {
+              playerHealth = minPlayerHealth;
+              fighting = false;
+              roundResult = 'stun';
+              result = 'defeat';
+            }
+          } else {
+            roundResult = 'miss';
           }
-        } else {
-          roundResult = 'miss';
+          fightLog.push({
+            logIdx: fightLog.length,
+            round,
+            whoseTurn,
+            isHit,
+            roundResult,
+            weapon: enemyWeapon.titleKey,
+            dmg,
+            enemyIdx: enemy.idx,
+            enemyType: enemy.id,
+            enemies: enemiesArr.map((e) => e.health),
+          });
         }
-        fightLog.push({ round, whoseTurn, isHit, roundResult, weapon: enemyWeapon.titleKey, dmg });
       });
     }
-    if (enemiesArr.length === 0) {
+
+    if (getAliveEnemyIdx(enemiesArr) === undefined) {
       result = 'victory';
       fighting = false;
     }
@@ -398,6 +427,7 @@ const processFight = (gameState, gameData, initiative, enemies) => {
   }
   return { result, fightLog, playerHealth };
 };
+
 const getExpGained = (enemies, result) => {
   let expTotal = 0;
   enemies.forEach((e) => {

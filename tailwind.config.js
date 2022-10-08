@@ -25,6 +25,17 @@ module.exports = {
         sm: '0 0 10px 6px rgba(0, 0, 0, 0.9)',
         xl: '0 0 16px 3px rgba(0, 0, 0, 0.4)',
       },
+      animation: {
+        damageText: 'damageTextKeyframes 0.5s normal forwards linear',
+      },
+      keyframes: {
+        damageTextKeyframes: {
+          '0%': { transform: 'translateY(0)', opacity: 0 },
+          '25%': { transform: 'translateY(-1rem)', opacity: 1 },
+          '75%': { transform: 'translateY(-2rem)', opacity: 1 },
+          '100%': { transform: 'translateY(-3rem)', opacity: 0 },
+        },
+      },
     },
   },
   plugins: [],

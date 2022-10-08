@@ -25,3 +25,10 @@ export { default as iconStatsExp } from './icons/icon-stats-exp.svg';
 export { default as iconStatsAc } from './icons/icon-stats-ac.svg';
 export { default as iconDate } from './icons/icon-date.svg';
 export { default as iconStatsWeapon } from './icons/icon-stats-weapon.svg';
+
+/* ENEMIES */
+export { default as enemiesRat } from './enemies/enemies_rat.svg';
+
+/* WEAPONS */
+export { default as weaponsBite } from './weapons/weapons_bite.svg';
+export { default as weaponsButterKnife } from './weapons/weapons_butterKnife.svg';

@@ -4,9 +4,16 @@ import PropTypes from 'prop-types';
 import { processTurn, getEnemiesForDungeonFloor } from '../../../../helpers/gameHelpers';
 import { gameDataType, gameStateType } from '../../../../propTypeShapes';
 import { dummyImg } from '../../../../img';
-import { Button, TreasureList, ActionTransitionWrap } from '../../../index';
+import { Button, TreasureList, ActionTransitionWrap, Battle } from '../../../index';
 
-const Dungeon = ({ gameState, gameData, setGameState, triggerPaneTransition }) => {
+const Dungeon = ({
+  gameState,
+  gameData,
+  setGameState,
+  triggerPaneTransition,
+  navLockout,
+  setNavLockout,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const canDungeon = gameState.health > 1;
   const initDungeonState = { stage: canDungeon ? 'intro' : 'too-injured', floor: 0, treasure: [] };
@@ -103,6 +110,14 @@ const Dungeon = ({ gameState, gameData, setGameState, triggerPaneTransition }) =
                 />
               </div>
             )}
+            {['enemy', 'result'].includes(stage) && (
+              <Battle
+                dungeonState={dungeonState}
+                gameData={gameData}
+                navLockout={navLockout}
+                setNavLockout={setNavLockout}
+              />
+            )}
             {stage === 'enemy' && (
               <div>
                 <div className="pb-4">
@@ -125,15 +140,6 @@ const Dungeon = ({ gameState, gameData, setGameState, triggerPaneTransition }) =
                       />
                     </p>
                   </div>
-                  {/* <p>
-                  You have a three options. If you choose VIOLENCE, you risk death for a chance at
-                  treasure and experience. If you choose to CHARM the entity, you have a chance of
-                  talking your way out of the fight and sharing with a portion of their loot. If
-                  your CHARM attempt fails, the enemy may choose to attack and will get the
-                  initiative. You can choose to FLEE and forfeit 3/4 of all treasure you have
-                  accumulated in the dungeon so far in exchange for your life. Choose wisely
-                  adventurer.
-                </p> */}
                 </div>
 
                 <div className="text-right pt-4">
@@ -155,58 +161,14 @@ const Dungeon = ({ gameState, gameData, setGameState, triggerPaneTransition }) =
                 </div>
               </div>
             )}
-
             {stage === 'result' && (
               <div>
-                <div className="text-2xl">
-                  <FormattedMessage
-                    id={`battle__${dungeonState.result}__title`}
-                    defaultMessage={`battle__${dungeonState.result}__title`}
-                  />
-                </div>
-                <div className="pb-4">
-                  {dungeonState?.fightLog?.map((l, idx) => (
-                    <div key={`fightLog-${dungeonState.floor}-${l.round}-${idx}`}>
-                      <FormattedMessage
-                        id={l.whoseTurn === 'player' ? 'battle__log__player' : 'battle__log__enemy'}
-                        defaultMessage="error"
-                      />{' '}
-                      <FormattedMessage id="battle__log__attacks" />{' '}
-                      <FormattedMessage id={l.weapon} defaultMessage={l.weapon} />{' '}
-                      {l.isHit ? (
-                        <FormattedMessage
-                          id="battle__log__hits"
-                          values={{ dmg: l.dmg }}
-                          defaultMessage="error"
-                        />
-                      ) : (
-                        <FormattedMessage id="battle__log__misses" />
-                      )}
-                      {l.roundResult === 'death' && (
-                        <FormattedMessage
-                          id={
-                            l.whoseTurn === 'player'
-                              ? 'battle__log__result_enemy_dead'
-                              : 'battle__log__result_player_dead'
-                          }
-                          defaultMessage="error"
-                        />
-                      )}
-                      .
-                    </div>
-                  ))}
-                  {!canDungeon && (
-                    <div>
-                      <FormattedMessage id="dungeon__too_injured_continue" />
-                    </div>
-                  )}
-                </div>
-                <div className="text-2xl">
+                {/* <div className="text-2xl">
                   <FormattedMessage id="battle__loot__title" />
-                </div>
+                </div> */}
               </div>
             )}
-            {['intro', 'result'].includes(stage) && (
+            {['intro', 'result'].includes(stage) && !navLockout && (
               <div className="text-right mt-8">
                 <span className="mr-2">
                   <Button onClick={handleDungeonExit} variant="secondary">
@@ -233,6 +195,8 @@ Dungeon.propTypes = {
   gameState: gameStateType.isRequired,
   setGameState: PropTypes.func.isRequired,
   triggerPaneTransition: PropTypes.func.isRequired,
+  navLockout: PropTypes.bool.isRequired,
+  setNavLockout: PropTypes.func.isRequired,
 };
 
 export default Dungeon;

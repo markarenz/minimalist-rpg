@@ -4,7 +4,15 @@ import { FormattedMessage } from 'react-intl';
 import { Map, Dialog, Dungeon, Shop, Healing, TransitionWrap } from '../../index';
 import { gameStateType, gameDataType } from '../../../propTypeShapes';
 
-const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPaneTransition }) => {
+const Action = ({
+  gameState,
+  gameData,
+  setGameState,
+  transitionMode,
+  triggerPaneTransition,
+  navLockout,
+  setNavLockout,
+}) => {
   const areaData = gameData.areas[gameState.location];
   const actionLabelKeys = {
     map: 'common__you_are_here',
@@ -50,6 +58,8 @@ const Action = ({ gameState, gameData, setGameState, transitionMode, triggerPane
           gameState={gameState}
           setGameState={setGameState}
           triggerPaneTransition={triggerPaneTransition}
+          navLockout={navLockout}
+          setNavLockout={setNavLockout}
         />
       )}
       {areaData?.type === 'shop' && (
@@ -82,5 +92,7 @@ Action.propTypes = {
   setGameState: PropTypes.func.isRequired,
   transitionMode: PropTypes.string,
   triggerPaneTransition: PropTypes.func.isRequired,
+  navLockout: PropTypes.bool.isRequired,
+  setNavLockout: PropTypes.func.isRequired,
 };
 export default Action;
