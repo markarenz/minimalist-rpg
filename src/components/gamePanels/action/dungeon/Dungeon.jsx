@@ -79,7 +79,7 @@ const Dungeon = ({
       <div className="p-4">
         <div className="grid gap-4 grid-cols-12">
           <div className="col-span-12 sm:col-span-3">
-            <img src={dummyImg} alt={imgAlt} />
+            <img src={dungeonData.imgSrc || dummyImg} alt={imgAlt} />
             {/* TODO: set img src based on either dungeon or enemy img src */}
             {/* TODO: Add badge for multiple copies of enemy */}
             <div>Treasure:</div>

@@ -28,6 +28,7 @@ export { default as ActionTransitionWrap } from './gamePanels/action/ActionTrans
 export { default as Map } from './gamePanels/action/map/Map';
 export { default as MapCell } from './gamePanels/action/map/MapCell';
 export { default as MapCellTitle } from './gamePanels/action/map/MapCellTitle';
+export { default as Deco } from './gamePanels/action/map/Deco';
 
 // SUB COMPS: GAME PANELS / ACTION / DIALOG
 export { default as Dialog } from './gamePanels/action/dialog/Dialog';

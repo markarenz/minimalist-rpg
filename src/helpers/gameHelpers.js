@@ -466,6 +466,7 @@ const processDungeonAttack = (turnData, prevGameState, gameData) => {
 };
 
 const processTurn = (turnData, setGameState, gameData) => {
+  window.scrollTo(0, 0);
   setGameState((prevGameState) => {
     let obj = {};
     let updates = { flags: {} };

@@ -1,15 +1,58 @@
+import imgMapMain from '../img/maps/bg_main.svg';
+import imgMapTownyTown from '../img/maps/bg_townyTown.svg';
+import imgAreaDungeon1 from '../img/maps/dungeon1.svg';
+import imgTownyTown from '../img/maps/townyTown.svg';
+import imgTownyBar from '../img/maps/townyBar.svg';
+import imgDecoWaves from '../img/maps/map_deco_waves.svg';
+
 const areas = {
   main: {
     type: 'map',
     parent: null,
     titleKey: 'area__main_area__title',
+    bgImgSrc: imgMapMain,
     size: 'xl',
+    deco: [
+      {
+        imgSrc: imgDecoWaves,
+        size: 10,
+        position: {
+          x: 4,
+          y: 37,
+        },
+      },
+      {
+        imgSrc: imgDecoWaves,
+        size: 10,
+        position: {
+          x: 7,
+          y: 85,
+        },
+      },
+      {
+        imgSrc: imgDecoWaves,
+        size: 10,
+        position: {
+          x: 82,
+          y: 48,
+        },
+      },
+      {
+        imgSrc: imgDecoWaves,
+        size: 10,
+        position: {
+          x: 30,
+          y: 5,
+        },
+      },
+    ],
     areas: {
       towny_town: {
-        size: 20,
+        imgSrc: imgTownyTown,
+        size: 14,
         position: {
-          x: 60,
-          y: 60,
+          x: 61,
+          y: 65,
         },
         conditions: {
           operator: 'all',
@@ -17,10 +60,11 @@ const areas = {
         },
       },
       dungeon1: {
+        imgSrc: imgAreaDungeon1,
         size: 10,
         position: {
-          x: 25,
-          y: 25,
+          x: 30,
+          y: 45,
         },
         conditions: {
           operator: 'all',
@@ -32,6 +76,7 @@ const areas = {
   dungeon1: {
     type: 'dungeon',
     parent: 'main',
+    imgSrc: imgAreaDungeon1,
     titleKey: 'area__dungeon1__title',
     level: 1,
     descriptionKey: 'area__dungeon1__description',
@@ -40,7 +85,9 @@ const areas = {
     type: 'map',
     parent: 'main',
     titleKey: 'area__towny_town__title',
+    bgImgSrc: imgMapTownyTown,
     size: 'xl',
+    deco: [],
     areas: {
       townie_shop: {
         size: 10,
@@ -54,12 +101,11 @@ const areas = {
         },
       },
       townie_bar: {
-        // description:
-        //   'Break a bottle over your own head to prevent the other guy from doing it first.',
+        imgSrc: imgTownyBar,
         size: 10,
         position: {
-          x: 30,
-          y: 20,
+          x: 40,
+          y: 40,
         },
         conditions: {
           operator: 'all',
@@ -69,8 +115,8 @@ const areas = {
       healing_spring: {
         size: 10,
         position: {
-          x: 70,
-          y: 60,
+          x: 74,
+          y: 82,
         },
         conditions: {
           operator: 'some',
@@ -83,8 +129,8 @@ const areas = {
       healing_spring_closed: {
         size: 10,
         position: {
-          x: 70,
-          y: 60,
+          x: 74,
+          y: 62,
         },
         disabled: true,
         disabledIcon: 'clock',
@@ -114,6 +160,7 @@ const areas = {
     parent: 'towny_town',
     titleKey: 'area__townie_bar__title',
     size: 'xl',
+    deco: [],
     areas: {
       mike: {
         size: 5,

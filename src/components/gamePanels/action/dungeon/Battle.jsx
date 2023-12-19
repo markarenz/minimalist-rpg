@@ -23,11 +23,15 @@ const Battle = ({ dungeonState, gameData, setNavLockout }) => {
     log.forEach((i, idx) => {
       setTimeout(() => {
         setBattleState(i);
-        if (idx === log.length - 1) {
-          setNavLockout(false);
-        }
       }, 500 * idx);
     });
+    setTimeout(() => {
+      setBattleState({
+        ...log[log.length - 1],
+        whoseTurn: '',
+      });
+      setNavLockout(false);
+    }, 500 * log.length);
   };
   useEffect(() => {
     const log = dungeonState?.fightLog;
@@ -64,7 +68,7 @@ const Battle = ({ dungeonState, gameData, setNavLockout }) => {
     dungeonState?.fightLog && battleState.logIdx === dungeonState.fightLog.length - 1;
   const getEnemyTitleKey = () =>
     gameData?.enemies[dungeonState?.fightLog[battleState?.logIdx]?.enemyType].titleKey;
-  console.log('...g');
+  console.log('...h');
   return (
     <div>
       <div id="battle-stage" className="w-full relative">

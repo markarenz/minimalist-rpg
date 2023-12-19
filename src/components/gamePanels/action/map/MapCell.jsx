@@ -14,7 +14,7 @@ const MapCell = ({ area, areaId, titleKey, handleAreaClick }) => {
   const title = formatMessage({ id: titleKey });
   return (
     <div
-      className="w-[10%] aspect-square relative"
+      className="w-[10%] aspect-square absolute"
       style={{ top: `${y}%`, left: `${x}%`, width: `${size}%` }}
     >
       <div>
@@ -24,7 +24,11 @@ const MapCell = ({ area, areaId, titleKey, handleAreaClick }) => {
           onClick={() => handleAreaClick(areaId)}
           disabled={area.disabled}
         >
-          <img src={dummyImg} alt={titleKey} className="w-full h-full absolute top-0 left-0" />
+          <img
+            src={area.imgSrc || dummyImg}
+            alt={titleKey}
+            className="w-full h-full absolute top-0 left-0"
+          />
           {area.disabled && (
             <div className="w-4 h-4 absolute bottom-1 right-1 bg-primary rounded-full border-2 border-primary">
               <img src={area.disabledIcon === 'clock' ? iconClock : iconLock} alt="Timer" />

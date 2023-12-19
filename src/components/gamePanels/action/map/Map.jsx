@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { evaluateConditions, getMapMaxW, processTurn } from '../../../../helpers/gameHelpers';
 import { dummyImg, iconReturn } from '../../../../img';
-import { BtnIcon, MapCell, ActionTransitionWrap } from '../../../index';
+import { BtnIcon, MapCell, ActionTransitionWrap, Deco } from '../../../index';
 import { gameDataType, gameStateType } from '../../../../propTypeShapes';
 
 const Map = ({ gameState, gameData, setGameState, transitionMode, triggerPaneTransition }) => {
@@ -39,10 +39,13 @@ const Map = ({ gameState, gameData, setGameState, transitionMode, triggerPaneTra
           } transition-all duration-300 aspect-square mx-auto my-2 relative`}
         >
           <img
-            src={dummyImg}
+            src={areaData.bgImgSrc || dummyImg}
             alt="background"
-            className="absolute top-0 left-0 w-full h-full opacity-50"
+            className="absolute top-0 left-0 w-full h-full border-2 border-gray-100 rounded-xl shadow-2xl"
           />
+          {areaData.deco.map((d, idx) => (
+            <Deco key={`deco-${idx}`} decoObj={d} />
+          ))}
           {activeAreaIds.map((k) => (
             <MapCell
               key={`map-tile-${k}`}
